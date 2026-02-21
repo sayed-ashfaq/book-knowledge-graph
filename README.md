@@ -21,6 +21,29 @@ The system will:
 
 The final output looks like a **living mind map of the entire book**, built automatically by AI.
 
+## File Structure
+
+```
+book-knowledge-graph/
+│
+├── data/                  # Your raw input PDFs go here
+├── output/                # Generated graphs, animations, HTML files
+├── src/                   # All your source code
+│   ├── extractor.py       # Module 1-2: PDF reading and chunking
+│   ├── concepts.py        # Module 3: LLM concept extraction
+│   ├── embeddings.py      # Module 4: Embeddings
+│   ├── graph.py           # Module 5: Graph construction
+│   ├── layout.py          # Module 6: Layout and positioning
+│   ├── animate.py         # Module 7: Animated visualization
+│   ├── visualize.py       # Module 8: Plotly interactive output
+│   └── app.py             # Module 9: Streamlit app
+│
+├── .env                   # API keys — never shared, never committed
+├── .gitignore             # Tells git what to ignore
+├── requirements.txt       # All dependencies listed
+└── main.py                # Entry point that runs the full pipeline
+```
+
 ## Why Is This Hard and Interesting?
 
 Because none of those steps are trivial. The LLM has to *understand* the text well enough to extract meaningful concepts. The graph has to be structured so relationships have *weight and direction*. The layout algorithm has to place nodes so that *visually similar concepts cluster together*. And the whole thing has to work on *any* book, not just one.
