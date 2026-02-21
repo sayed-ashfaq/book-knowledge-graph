@@ -142,6 +142,49 @@ But embeddings would show that Habit Loop and Behavior Patterns have vectors ver
 So embeddings let us discover hidden relationships that the LLM missed because of chunk boundaries. We can say "if two concepts have vectors closer than distance X, add an edge between them even if the LLM didn't."
 
 This makes our graph richer and more connected.
+
+
+
 ### EndNote:
 Perfect. `end-to-end AI system design` and `AI system design` scoring 0.82 similarity — that's exactly right. They're genuinely the same concept described slightly differently across different chunks. The embedding caught a relationship the LLM never explicitly stated.
 39 similarity edges on top of your 49 LLM edges means your final graph will have 88 edges total — significantly richer than what the LLM alone produced.
+
+## Module 5 - Graph Construction 🕸️
+
+### Intuition First
+
+You now have three things — nodes, LLM edges, and embedding edges. A graph is just a formal data structure that organizes exactly this — entities and their connections.
+
+NetworkX is Python's standard graph library. Think of it as a dictionary on steroids where nodes and edges can carry any attributes you want — descriptions, weights, colors, sizes.
+
+**Quick thinking question before we code —**
+
+We have two types of edges — LLM extracted with a relationship label, and embedding based with a similarity weight. 
+
+**Should these be treated equally in the graph or differently, and why?** 🤔
+
+### Answer: 
+
+They should be treated **differently** because they represent different levels of confidence.
+
+LLM edges are **explicit** — the author actually connected these ideas. High confidence, has a meaningful label like `enables` or `causes`. These are the primary edges.
+
+Embedding edges are **implicit** — mathematically similar but we don't know *why*. Lower confidence, no meaningful label. These are secondary edges that enrich the graph but shouldn't dominate it.
+
+In practice we handle this by giving them different **weights**. LLM edges get weight 1.0, embedding edges get their similarity score like 0.82 as the weight. When we visualize, heavier edges appear thicker and more prominent.
+
+
+## Module 6 — Layout & Positioning 📐
+### Intuition First
+
+You have 252 nodes. To visualize them you need to place each node at an (x, y) coordinate on screen. But which coordinate?
+
+You could place them randomly — but then connected nodes would be scattered far apart and the graph would look like noise.
+
+The goal is — **nodes that are heavily connected should appear close together, and loosely connected nodes should drift apart.**
+
+This is what layout algorithms do. They simulate physics.
+
+**Spring Layout** imagines every edge is a spring pulling connected nodes together, while all nodes repel each other like magnets. The system reaches equilibrium and connected clusters naturally form.
+
+Before we code — **can you think of why some books would produce a graph with one big central cluster, while other books might produce many small separate clusters?** 🤔
