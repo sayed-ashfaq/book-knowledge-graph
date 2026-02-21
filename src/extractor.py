@@ -44,15 +44,16 @@ def chunk_pages(pages: list[dict], chunk_size: int = 1000, overlap: int = 150) -
         separators=["\n\n", "\n", ". ", " "]
     )
     
+    # Join all pages into one continuous text first
+    full_text = " ".join([p["text"] for p in pages])
+
+    chunks = splitter.split_text(full_text)
+
     all_chunks = []
-    
-    for page in pages:
-        chunks = splitter.split_text(page["text"])
-        for i, chunk in enumerate(chunks):
-            all_chunks.append({
-                "page": page["page"],
-                "chunk_index": i,
-                "text": chunk
-            })
+    for i, chunk in enumerate(chunks):
+        all_chunks.append({
+            "chunk_index": i,
+            "text": chunk
+        })
     
     return all_chunks
