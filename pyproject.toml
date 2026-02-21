@@ -11,6 +11,7 @@ dependencies = [
     "langchain-text-splitters>=1.1.1",
     "matplotlib>=3.10.8",
     "networkx>=3.6.1",
+    "openai>=2.21.0",
     "plotly>=6.5.2",
     "pymupdf>=1.27.1",
     "python-dotenv>=1.2.1",

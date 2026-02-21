@@ -1,12 +1,16 @@
-from src.extractor import load_pdf
+from src.extractor import load_pdf, chunk_pages
+from src.concepts import extract_all_concepts
 
 pages = load_pdf("data/AIEngg_book.pdf")
-# print(pages[0])  # See what page 1 looks like
-# print(pages[5])  # See what page 5 looks likeS
-
-from src.extractor import load_pdf, chunk_pages
-
 chunks = chunk_pages(pages)
 
-print(f"Total chunks: {len(chunks)}")
-print(f"Sample chunk:\n{chunks[10]}")
+results = extract_all_concepts(chunks, max_chunks=5)
+
+print(f"Nodes extracted: {len(results['nodes'])}")
+print(f"Edges extracted: {len(results['edges'])}")
+print("\nSample nodes:")
+for node in results['nodes'][:5]:
+    print(node)
+print("\nSample edges:")
+for edge in results['edges'][:5]:
+    print(edge)

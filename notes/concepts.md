@@ -25,3 +25,38 @@ Think about a real book PDF. Imagine you're extracting text from it to later sen
 > one more thing is that hypheneted line breaks - When extracted naively, this becomes environ- and mental as separate pieces. The LLM might not reconnect them properly. So we need to handle that too.
 
 ## Module 2 -- Text Chunking
+
+Q1. Why did chunk count drop from 1632 to 1273 when we switched from page-by-page to full-text chunking?
+* Page by page created many small underfilled chunks at page boundaries. Full text lets the splitter pack chunks properly to their capacity.
+
+Q2. We set overlap=150. If you increased this to overlap=400 what are the two tradeoffs — one benefit, one problem?
+* The real problem with large overlap is redundancy - if chunks overlap too much, the same text gets sent to the LLM multiple times, which means duplicate concept extractions, higher cost, and a noisier graph. The LLM might extract the same concept 5 times from 5 overlapping chunks
+
+## Module 3 -- Concept Extraction with LLM 🧠
+
+#### Prompt Formatting
+1. You need to write a system prompt that instructs the LLM to extract concepts and relationships. What instructions would you give the LLM to make sure it returns consistent, clean, structured JSON every single time?
+* You are an intelligent content formatter who is great building knowledge graphs. You will be given content and you have format it into JSON format that is specified below. You have to strictly adhere to the format, should not give anything other than this. 
+The content: {content} 
+The jSON format: format
+> correction by llm 
+```
+Good start. You got the core ideas right — role assignment, content injection, format specification, and strict adherence instruction. That's solid prompt engineering instinct.
+
+But there are gaps that will cause real problems at scale. Let me point them out 
+
+Problem 1 — You didn't tell it what a concept is. The LLM will guess. On one chunk it might extract James Clear as a node, on another it extracts Page Layout as a node. Without a definition, consistency breaks.
+
+Problem 2 — You didn't limit the number of nodes per chunk. Without a limit, some chunks return 3 nodes, others return 25. Your graph becomes unbalanced.
+
+Problem 3 — You didn't handle the relationship label. Without guidance, one chunk returns "reinforces", another returns "is related to", another returns "has a connection with". Inconsistent edge labels make graph analysis meaningless.
+
+Problem 4 — You didn't explicitly say "no markdown, no explanation, raw JSON only." LLMs love to wrap JSON in ```json blocks or add "Here is your JSON:" before it. That breaks your parser instantly.
+```
+
+2. Notice `max_chunks=50` in `extract_all_concepts`.<br>
+Why do you think I added that limit for development? What would happen if you ran all 1273 chunks right now? 🤔
+
+* That's one reason yes. But there's a more important reason — cost.
+* 1273 chunks × 1 API call each = 1273 API calls to Claude. Each call sends ~1000 tokens and receives ~500 tokens. That's roughly 1.9 million tokens in one run. Depending on the model that could cost you real money during a debugging session where you're just testing if the output format is correct.
+* Always develop and debug on a small sample. Only run the full dataset when you're confident the code is correct. That's standard practice in ML engineering.
