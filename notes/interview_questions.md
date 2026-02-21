@@ -84,6 +84,18 @@ Q2. We check if G.has_node(source) and G.has_node(target) before adding edges. W
 Q3. We have 252 nodes but started with 51 deduplicated nodes from 5 chunks. We then ran 50 chunks for embeddings. Does 252 nodes seem reasonable to you and why? 🤔
 - If 51 nodes from 5 chunk then for 50 it should 250 which is completly resonable, -> Perfect math instinct. 51 nodes from 5 chunks × 10 = ~250 nodes from 50 chunks. 252 is exactly in that range. Your estimation thinking is solid.
 
+### Module 6 Exit Quiz — Quick One
+Q1. UMAP has a parameter n_neighbors=15. In plain English what do you think this controls about how nodes get positioned?
+
+Q2. We set random_state=42 in both spring layout and UMAP. Why is fixing a random state important when you're iterating and debugging a visualization? 🤔
+> Q1 — Let me explain. n_neighbors=15 tells UMAP how many nearby nodes to consider when deciding where to place each node.<br>
+Low value like 5 — each node only looks at its 5 closest neighbors. Result is many tight small clusters, very local structure.<br>
+High value like 50 — each node considers 50 neighbors. Result is one big spread out layout, very global structure.<br>
+15 is the sweet spot — you get meaningful local clusters while still preserving global relationships between clusters. Keep this in mind when we visualize — if clusters look too tight or too spread you now know exactly which parameter to tune.
+
+Q2: random_state 42 means it always pick the same random numbers every time, so that the output is certain and easy to debug<br>
+Q2 — Perfect. Reproducibility is everything when debugging visualizations. If layout changes every run you can never tell if your code change improved things or if it just got lucky with randomness.
+
 
 
 #### Notes Universal: 

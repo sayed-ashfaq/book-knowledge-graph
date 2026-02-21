@@ -188,3 +188,23 @@ This is what layout algorithms do. They simulate physics.
 **Spring Layout** imagines every edge is a spring pulling connected nodes together, while all nodes repel each other like magnets. The system reaches equilibrium and connected clusters naturally form.
 
 Before we code — **can you think of why some books would produce a graph with one big central cluster, while other books might produce many small separate clusters?** 🤔
+
+## Module 7 — Animated Visualization 🎨
+
+### The Exciting Part
+
+This is where everything becomes visual. We're building a graph that **grows in real time** — nodes appear one by one, edges form, clusters emerge. Dark theme, colored clusters, nodes sized by importance.
+
+Before we code I want you to think about the animation logic.
+
+You have 252 nodes and 242 edges. An animation is just a sequence of frames. In each frame you draw a slightly more complete graph.
+
+**How would you decide the order in which nodes appear in the animation? Random order, or is there a smarter sequence?** 🤔
+
+If nodes appear randomly, a node might appear on screen with edges connecting to nodes that haven't appeared yet. You'd see floating edges going nowhere. It would look broken.
+
+Also think about storytelling — the viewer should understand the graph as it grows. If the most important hub node like AI Engineering appears last, the viewer watches 251 confusing unconnected nodes before the picture makes sense.
+
+Smarter sequence — start with the most connected nodes first. Hub nodes appear early, then their neighbors appear and immediately connect to them. The viewer watches clusters form organically around important concepts. It tells a story.
+
+This is called degree-ordered animation — most connected nodes appear first.
