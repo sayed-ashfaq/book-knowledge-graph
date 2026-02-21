@@ -115,11 +115,15 @@ else:
     pos = compute_umap_layout(G, nodes_with_embeddings)
     save_layout(pos)
 
+# Debug — check first position value
+first_node = list(pos.keys())[0]
+print(f"Position dimensions: {len(pos[first_node])} — values: {pos[first_node]}")
+
 graph_stats(G)
 print(f"Layout computed for {len(pos)} nodes")
 
 
 from src.visualize import build_plotly_graph, build_plotly_3d_graph
 
-build_plotly_graph(G, pos)
+# build_plotly_graph(G, pos)
 build_plotly_3d_graph(G, pos)

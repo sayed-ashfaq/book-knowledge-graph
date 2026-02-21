@@ -40,11 +40,11 @@ def compute_umap_layout(G: nx.Graph, nodes_with_embeddings: list[dict]) -> dict:
         reducer = umap.UMAP(
             n_components=3,
             random_state=42,
-            min_dist=0.3,
-            n_neighbors=15
+            min_dist=0.8,
+            n_neighbors=30
         )
         
-        embedding_2d = reducer.fit_transform(vectors)
+        embedding_3d = reducer.fit_transform(vectors)
         
         pos = {}
         for i, node in enumerate(valid_nodes):

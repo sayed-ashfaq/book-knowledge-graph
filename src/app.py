@@ -181,7 +181,12 @@ def run_app():
             
             # Download button
             html_path = "output/knowledge_graph.html"
-            build_plotly_graph(G, pos, html_path)
+
+            if view_mode == "3D Rotating":
+                build_plotly_3d_graph(G, pos, html_path)
+            else:
+                build_plotly_graph(G, pos, html_path)
+
             with open(html_path, "r", encoding="utf-8") as f:
                 html_content = f.read()
             
