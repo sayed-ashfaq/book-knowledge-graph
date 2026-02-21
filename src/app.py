@@ -13,7 +13,7 @@ from src.concepts import extract_all_concepts
 from src.embeddings import generate_embeddings, find_similar_pairs
 from src.graph import build_graph
 from src.layout import compute_umap_layout
-from src.visualize import build_plotly_graph
+from src.visualize import build_plotly_graph, build_plotly_3d_graph
 from src.animate import assign_clusters
 
 # Page config must be first Streamlit command
@@ -63,6 +63,12 @@ def run_app():
             step=100,
             help="Larger chunks = more context per LLM call"
         )
+
+        view_mode = st.radio(
+                        "Visualization mode",
+                        ["2D Interactive", "3D Rotating"],
+                        horizontal=True
+                    )
         
         st.divider()
         st.markdown("**How it works:**")
@@ -147,11 +153,7 @@ def run_app():
             
             # Stage 7 — Render
             with st.status("🎨 Rendering visualization...") as status:
-                view_mode = st.radio(
-                        "Visualization mode",
-                        ["2D Interactive", "3D Rotating"],
-                        horizontal=True
-                    )
+                
                 if view_mode == "3D Rotating":
                     fig = build_plotly_3d_graph(G, pos)
                 else:

@@ -159,7 +159,7 @@ def build_plotly_3d_graph(G: nx.Graph, pos: dict, output_path: str = "output/kno
         x=llm_edge_x, y=llm_edge_y, z=llm_edge_z,
         mode='lines',
         line=dict(width=1.5, color='rgba(255,255,255,0.4)'),
-        hoverinfo='none',
+        hoverinfo='name',
         name='Explicit Relationship'
     )
     
@@ -167,7 +167,7 @@ def build_plotly_3d_graph(G: nx.Graph, pos: dict, output_path: str = "output/kno
         x=emb_edge_x, y=emb_edge_y, z=emb_edge_z,
         mode='lines',
         line=dict(width=0.8, color='rgba(100,100,255,0.2)'),
-        hoverinfo='none',
+        hoverinfo='name',
         name='Semantic Similarity'
     )
     
