@@ -29,16 +29,16 @@ Output format:
 """
 
 def extract_concepts(chunk: str) -> dict:
-    message = client.messages.create(
-        model="gpt-4o-mini",
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",  # Cost efficient for development
         max_tokens=1024,
-        system=SYSTEM_PROMPT,
         messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": f"Extract concepts from this text:\n\n{chunk}"}
         ]
     )
     
-    raw = message.content[0].text
+    raw = response.choices[0].message.content
     return parse_response(raw)
 
 def parse_response(raw: str) -> dict:
@@ -54,11 +54,19 @@ def parse_response(raw: str) -> dict:
     except json.JSONDecodeError:
         return {"nodes": [], "edges": []}
 
+def deduplicate_nodes(nodes: list[dict]) -> list[dict]:
+    seen = {}
+    for node in nodes:
+        # Normalize to lowercase for comparison
+        key = node["id"].lower().strip()
+        if key not in seen:
+            seen[key] = node
+    return list(seen.values())
+
 def extract_all_concepts(chunks: list[dict], max_chunks: int = 50) -> dict:
     all_nodes = []
     all_edges = []
     
-    # Limit chunks for cost control during development
     selected = chunks[:max_chunks]
     
     for i, chunk in enumerate(selected):
@@ -67,7 +75,26 @@ def extract_all_concepts(chunks: list[dict], max_chunks: int = 50) -> dict:
         all_nodes.extend(result["nodes"])
         all_edges.extend(result["edges"])
     
+    # Deduplicate before returning
+    unique_nodes = deduplicate_nodes(all_nodes)
+    
+    print(f"\nRaw nodes: {len(all_nodes)} → After dedup: {len(unique_nodes)}")
+    
     return {
-        "nodes": all_nodes,
+        "nodes": unique_nodes,
         "edges": all_edges
     }
+
+# we shouldn't re-run 50 API calls every time we restart the script during development. We need to cache the results to a JSON file.
+
+import os
+
+def save_concepts(data: dict, path: str = "output/concepts.json"):
+    os.makedirs("output", exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(data, f, indent=2)
+    print(f"Concepts saved to {path}")
+
+def load_concepts(path: str = "output/concepts.json") -> dict:
+    with open(path, "r") as f:
+        return json.load(f)

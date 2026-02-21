@@ -32,3 +32,6 @@ Q1 is exactly right — this is a real limitation we're accepting for now. In a 
 Q2. 3 pages were skipped because they had less than 50 characters after cleaning. What kind of pages were those likely to be in a real book?
 
 Q2 — chapter titles and acknowledgements yes, also likely blank pages and full-image pages like diagrams or covers with no extractable text.
+
+#### Notes Universal: 
+1. Don't just go forward without completing something fully, Runs the Code - OK. Is output got what you desired do not move forward. Work more on output understand is that the output you are going to present, No right then keep iterating.
