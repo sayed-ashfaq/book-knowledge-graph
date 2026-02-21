@@ -2,7 +2,7 @@ from src.extractor import load_pdf, chunk_pages
 from src.concepts import extract_all_concepts, save_concepts, load_concepts
 import os
 
-pages = load_pdf("data/yourbook.pdf")
+pages = load_pdf("data/AIEngg_book.pdf")
 chunks = chunk_pages(pages)
 
 if os.path.exists("output/concepts.json"):

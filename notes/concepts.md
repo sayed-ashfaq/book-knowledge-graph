@@ -60,3 +60,36 @@ Why do you think I added that limit for development? What would happen if you ra
 * That's one reason yes. But there's a more important reason — cost.
 * 1273 chunks × 1 API call each = 1273 API calls to Claude. Each call sends ~1000 tokens and receives ~500 tokens. That's roughly 1.9 million tokens in one run. Depending on the model that could cost you real money during a debugging session where you're just testing if the output format is correct.
 * Always develop and debug on a small sample. Only run the full dataset when you're confident the code is correct. That's standard practice in ML engineering.
+
+> Module 3 output
+```bash
+Extracted 988 pages from AIEngg_book.pdf
+Processing chunk 1/10...
+Processing chunk 2/10...
+Processing chunk 3/10...
+Processing chunk 4/10...
+Processing chunk 5/10...
+Processing chunk 6/10...
+Processing chunk 7/10...
+Processing chunk 8/10...
+Processing chunk 9/10...
+Processing chunk 10/10...
+
+Raw nodes: 57 → After dedup: 51
+Nodes extracted: 51
+Edges extracted: 49
+
+Sample nodes:
+{'id': 'generative AI systems', 'description': 'AI systems that can generate content or data based on input and learned patterns.'}
+{'id': 'AI engineering', 'description': 'The application of engineering principles to design and build effective AI systems.'}
+{'id': 'production deployment', 'description': 'The process of implementing AI systems in a real-world environment for practical use.'}
+{'id': 'model development', 'description': 'The creation and training of algorithms that enable AI systems to learn from data.'}
+{'id': 'end-to-end AI system design', 'description': 'A comprehensive approach to designing AI systems from conception to operational use.'}
+
+Sample edges:
+{'source': 'AI engineering', 'target': 'generative AI systems', 'relationship': 'enables'}
+{'source': 'AI engineering', 'target': 'production deployment', 'relationship': 'depends on'}
+{'source': 'model development', 'target': 'end-to-end AI system design', 'relationship': 'is part of'}
+{'source': 'production deployment', 'target': 'end-to-end AI system design', 'relationship': 'is part of'}
+{'source': 'generative AI systems', 'target': 'AI engineering', 'relationship': 'requires'}
+```

@@ -33,5 +33,20 @@ Q2. 3 pages were skipped because they had less than 50 characters after cleaning
 
 Q2 — chapter titles and acknowledgements yes, also likely blank pages and full-image pages like diagrams or covers with no extractable text.
 
+### Module 3 - Exit quiz
+Module 3 Exit Quiz
+
+Q1. Why did we use gpt-4o-mini instead of gpt-4o for this task?
+* we are in developing and debugging phase, so in order to keep the costs low we are using mini, when in production we can use gpt-4o it gives better results and revenue will cover the costs.
+
+Q2. Our parse_response function returns {"nodes": [], "edges": []} when JSON parsing fails instead of crashing. Why is this the right decision for a pipeline that processes 50+ chunks?
+* You answered a different question. I asked why returning empty dict is the right decision instead of crashing. Think about it this way — if chunk 23 out of 50 returns malformed JSON and your code crashes, you lose all 22 chunks already processed. But if you return empty and continue, the pipeline finishes all 50 chunks and you only lose chunk 23's data.
+
+The principle here is called **graceful degradation** — a system that partially succeeds is better than one that fully crashes. Your retry idea is also valid and is the next level improvement, but the foundation is don't crash the whole pipeline for one bad chunk.
+
+Q3. Why is caching the concepts to a JSON file important during development?
+* All these steps takes time and api calls which reduces the productivity, so we cache it and make the process faster.
+
+### Module 4 — Embeddings 🔢
 #### Notes Universal: 
 1. Don't just go forward without completing something fully, Runs the Code - OK. Is output got what you desired do not move forward. Work more on output understand is that the output you are going to present, No right then keep iterating.
