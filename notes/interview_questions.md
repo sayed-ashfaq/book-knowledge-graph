@@ -48,5 +48,15 @@ Q3. Why is caching the concepts to a JSON file important during development?
 * All these steps takes time and api calls which reduces the productivity, so we cache it and make the process faster.
 
 ### Module 4 — Embeddings 🔢
+1. Which model did you use for embeddings?
+> I have used open source embedding model from huggingface which is `all-MiniLM-L6-v2`.
+
+
+
+
+
+
+
 #### Notes Universal: 
 1. Don't just go forward without completing something fully, Runs the Code - OK. Is output got what you desired do not move forward. Work more on output understand is that the output you are going to present, No right then keep iterating.
+

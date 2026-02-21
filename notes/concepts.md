@@ -93,3 +93,55 @@ Sample edges:
 {'source': 'production deployment', 'target': 'end-to-end AI system design', 'relationship': 'is part of'}
 {'source': 'generative AI systems', 'target': 'AI engineering', 'relationship': 'requires'}
 ```
+
+Q1 — Perfect. Exactly the right engineering mindset. Dev on cheap, scale on powerful.
+
+Q3 — Correct. Cache once, iterate fast.
+
+Q2 — You answered a different question. I asked *why returning empty dict is the right decision* instead of crashing. Think about it this way — if chunk 23 out of 50 returns malformed JSON and your code crashes, you lose all 22 chunks already processed. But if you return empty and continue, the pipeline finishes all 50 chunks and you only lose chunk 23's data. 
+
+The principle here is called **graceful degradation** — a system that partially succeeds is better than one that fully crashes. Your retry idea is also valid and is the next level improvement, but the foundation is don't crash the whole pipeline for one bad chunk.
+
+---
+
+## Module 4 — Embeddings 🔢
+
+#### Intuition First
+
+Before any code, I want you to understand what an embedding actually is because this trips up most beginners.
+
+You have concepts like `Habit Loop`, `Identity`, `Behavior Change`, `Neural Pathways`, `Motivation`.
+
+Right now these are just strings. Strings have no mathematical relationship to each other. Your code has no way of knowing that `Habit Loop` and `Behavior Change` are closely related while `Habit Loop` and `Neural Pathways` are somewhat related.
+
+**Embeddings convert text into a list of numbers — a vector — where similar meanings end up close together in space.**
+
+For example —
+
+```
+"Habit Loop"      → [0.23, 0.81, 0.12, 0.94, ...]  # 384 numbers
+"Behavior Change" → [0.21, 0.79, 0.15, 0.91, ...]  # Close to Habit Loop
+"Quantum Physics" → [0.87, 0.12, 0.93, 0.11, ...]  # Far from Habit Loop
+```
+
+The distance between two vectors tells you how semantically similar two concepts are.
+
+---
+
+#### Why Does This Add Value To Our Project?
+
+We already have edges from the LLM extraction. So why do we need embeddings on top of that?
+
+**Think about it — what can embeddings tell us that the LLM extracted edges cannot?** 🤔
+
+> The answer
+The LLM only creates edges between concepts that explicitly appear together in the same chunk. If Habit Loop appears in chunk 3 and Behavior Patterns appears in chunk 47, the LLM never connects them because it never saw them together.
+
+But embeddings would show that Habit Loop and Behavior Patterns have vectors very close to each other in space — meaning they're semantically similar even though they never appeared in the same chunk.
+
+So embeddings let us discover hidden relationships that the LLM missed because of chunk boundaries. We can say "if two concepts have vectors closer than distance X, add an edge between them even if the LLM didn't."
+
+This makes our graph richer and more connected.
+### EndNote:
+Perfect. `end-to-end AI system design` and `AI system design` scoring 0.82 similarity — that's exactly right. They're genuinely the same concept described slightly differently across different chunks. The embedding caught a relationship the LLM never explicitly stated.
+39 similarity edges on top of your 49 LLM edges means your final graph will have 88 edges total — significantly richer than what the LLM alone produced.
