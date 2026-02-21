@@ -82,6 +82,8 @@ from src.embeddings import generate_embeddings, find_similar_pairs, save_embeddi
 from src.graph import build_graph, graph_stats, save_graph, load_graph
 from src.layout import compute_umap_layout, save_layout, load_layout
 from src.animate import build_animation
+from src.visualize import build_plotly_graph
+
 import os
 
 # pages = load_pdf("data/yourbook.pdf")
@@ -117,4 +119,6 @@ graph_stats(G)
 print(f"Layout computed for {len(pos)} nodes")
 
 
-build_animation(G, pos)
+# build_animation(G, pos)
+
+build_plotly_graph(G, pos)

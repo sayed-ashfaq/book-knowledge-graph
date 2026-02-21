@@ -208,3 +208,47 @@ Also think about storytelling — the viewer should understand the graph as it g
 Smarter sequence — start with the most connected nodes first. Hub nodes appear early, then their neighbors appear and immediately connect to them. The viewer watches clusters form organically around important concepts. It tells a story.
 
 This is called degree-ordered animation — most connected nodes appear first.
+
+Good honest feedback. The "random looking" issue is actually expected at this scale — 252 nodes in a small GIF is always going to look dense. The real interactive experience comes in Module 8 where you can zoom in and explore clusters properly.
+
+Labels are readable — that's what matters most.
+
+Let's not over-optimize the GIF. It's a preview, not the final product. The Plotly output is where this truly shines.
+
+---
+
+### Module 7 Exit Quiz
+
+**Q1.** We skip labeling nodes with degree less than 4. What would happen visually if we labeled every single node?
+
+**Q2.** We animate every 3rd node with `range(0, len(node_order), 3)`. What are the two tradeoffs of this decision?
+
+Answer both and we move to Module 8 — the best module in the project. 🤔
+
+Q1 — Perfect. 252 overlapping white text labels on a dark background would be completely unreadable. Selective labeling is a design decision, not a limitation.
+
+Q2 — Let me explain. Animating every 3rd node means **faster rendering and smaller file size** — that's the benefit. The tradeoff is **you lose smoothness** — the graph jumps 3 nodes at a time instead of growing one by one. For 252 nodes this is acceptable. For a 50 node graph you'd animate every node. For a 1000 node graph you might skip every 5th.
+
+Always match animation granularity to dataset size. Good rule to remember.
+
+---
+
+## Module 8 — Interactive Plotly Output 🚀
+
+### This Is Where It Gets Real
+
+The GIF showed you the graph growing. Plotly gives you a **living, interactive document** — hover over any node to see its description, zoom into dense clusters, pan around, click to explore.
+
+This is what you'd actually show someone to demonstrate the project. This is demo-worthy.
+
+### Before We Code
+
+You have nodes with positions, colors, sizes, and descriptions. You have edges with weights and types.
+
+Plotly builds visualizations from **traces** — separate layers of data. For a graph you need at minimum two traces —
+
+One trace for edges drawn as lines, one trace for nodes drawn as scatter points.
+
+**Why do we need them as separate traces instead of drawing everything together?** 🤔
+
+Separate traces means separate control. You can style edges independently from nodes — edges get one hover behavior, nodes get another. You can toggle edge visibility without touching nodes. You can give nodes rich hover text showing descriptions while edges just show relationship labels on hover.If everything was one trace you'd lose that granular control entirely.
