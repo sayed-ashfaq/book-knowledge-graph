@@ -35,15 +35,15 @@ def build_plotly_graph(G: nx.Graph, pos: dict, output_path: str = "output/knowle
         x=llm_edge_x, y=llm_edge_y,
         mode='lines',
         line=dict(width=1.0, color='rgba(255,255,255,0.4)'),
-        hoverinfo='none',
+        hoverinfo='Explisit',
         name='Explicit Relationship'
     )
     
     emb_edge_trace = go.Scatter(
         x=emb_edge_x, y=emb_edge_y,
         mode='lines',
-        line=dict(width=0.5, color='rgba(100,100,255,0.2)'),
-        hoverinfo='none',
+        line=dict(width=0.5, color='rgba(0,102,255,0.2)'),
+        hoverinfo='similarity',
         name='Semantic Similarity'
     )
     
