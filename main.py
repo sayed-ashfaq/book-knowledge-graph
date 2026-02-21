@@ -119,6 +119,7 @@ graph_stats(G)
 print(f"Layout computed for {len(pos)} nodes")
 
 
-# build_animation(G, pos)
+from src.visualize import build_plotly_graph, build_plotly_3d_graph
 
 build_plotly_graph(G, pos)
+build_plotly_3d_graph(G, pos)

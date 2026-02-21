@@ -38,7 +38,7 @@ def compute_umap_layout(G: nx.Graph, nodes_with_embeddings: list[dict]) -> dict:
         vectors = np.array([embedding_lookup[n] for n in valid_nodes])
         
         reducer = umap.UMAP(
-            n_components=2,
+            n_components=3,
             random_state=42,
             min_dist=0.3,
             n_neighbors=15
@@ -48,15 +48,20 @@ def compute_umap_layout(G: nx.Graph, nodes_with_embeddings: list[dict]) -> dict:
         
         pos = {}
         for i, node in enumerate(valid_nodes):
-            pos[node] = [float(embedding_2d[i][0]), float(embedding_2d[i][1])]
+            pos[node] = [
+                float(embedding_3d[i][0]),
+                float(embedding_3d[i][1]),
+                float(embedding_3d[i][2])  # z coordinate
+            ]
             
         # Handle any nodes without embeddings using spring layout fallback
         missing = [n for n in G.nodes() if n not in pos]
         if missing:
             print(f"  {len(missing)} nodes missing embeddings, using spring fallback")
-            spring_pos = nx.spring_layout(G, seed=42)
+            spring_pos = nx.spring_layout(G, seed=42, dim=3)
             for node in missing:
-                pos[node] = spring_pos[node].tolist()
+                p = spring_pos[node].tolist()
+                pos[node] = p if len(p) == 3 else p + [0.0]
         
         return pos
         

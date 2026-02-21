@@ -147,7 +147,16 @@ def run_app():
             
             # Stage 7 — Render
             with st.status("🎨 Rendering visualization...") as status:
-                fig = build_plotly_graph(G, pos)
+                view_mode = st.radio(
+                        "Visualization mode",
+                        ["2D Interactive", "3D Rotating"],
+                        horizontal=True
+                    )
+                if view_mode == "3D Rotating":
+                    fig = build_plotly_3d_graph(G, pos)
+                else:
+                    fig = build_plotly_graph(G, pos)
+
                 status.update(label="🎨 Visualization ready", state="complete")
             
             # ── Display Results ───────────────────────────────────
