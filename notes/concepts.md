@@ -252,3 +252,6 @@ One trace for edges drawn as lines, one trace for nodes drawn as scatter points.
 **Why do we need them as separate traces instead of drawing everything together?** 🤔
 
 Separate traces means separate control. You can style edges independently from nodes — edges get one hover behavior, nodes get another. You can toggle edge visibility without touching nodes. You can give nodes rich hover text showing descriptions while edges just show relationship labels on hover.If everything was one trace you'd lose that granular control entirely.
+
+
+## That's the end of Chapter - later we can create fastapi and frontend to ship it.
